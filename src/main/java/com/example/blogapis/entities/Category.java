@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name="categories")
@@ -18,4 +20,7 @@ public class Category {
       private String categoryTitle;
       @Column(name="description",length = 1000,nullable = false)
       private String categoryDescription;
+
+      @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+      Set<Post> posts = new HashSet<>();
 }

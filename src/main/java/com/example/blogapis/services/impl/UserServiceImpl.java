@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private  ModelMapper modelMapper;
 
     @Override
-    public UserDTO createUser(UserDTO user) {
+    public UserDTO createUser(UserDTO userDto) {
 
-        User dbUser = userRepo.save(dtoToUser(user));
+        User dbUser = userRepo.save(dtoToUser(userDto));
         return UsertoUserDTO(dbUser);
     }
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAllUsers() {
         List<User> usersList = userRepo.findAll();
-        return usersList.stream().map(new UserServiceImpl()::UsertoUserDTO).collect(Collectors.toList());
+        return usersList.stream().map((x)-> modelMapper.map(x,UserDTO.class)).collect(Collectors.toList());
     }
 
 
@@ -56,8 +56,6 @@ public class UserServiceImpl implements UserService {
        //saving the user back into DB
        User updatedUser = userRepo.save(dbUser);
 
-
-
        return UsertoUserDTO(dbUser);
     }
 
@@ -67,8 +65,8 @@ public class UserServiceImpl implements UserService {
         userRepo.delete(user);
     }
 
-    private  User dtoToUser(UserDTO user){
-        return modelMapper.map(user,User.class);
+    private  User dtoToUser(UserDTO userDTO){
+        return modelMapper.map(userDTO,User.class);
     }
 
     private  UserDTO UsertoUserDTO(User user){

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name= "users")
 @NoArgsConstructor
@@ -30,5 +33,7 @@ public class User {
     @Column(length = 255)
     private String about;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<Post> posts = new HashSet<>();
 
 }
