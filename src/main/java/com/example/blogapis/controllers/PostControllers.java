@@ -26,21 +26,28 @@ public class PostControllers {
 
     //getPostsByUser
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId){
-        return new ResponseEntity<>(postService.getPostByUser(userId),HttpStatus.OK);
+    public ResponseEntity<PostResponse> getPostByUser(@PathVariable Integer userId,
+                                                      @RequestParam(value = "pageNumber", defaultValue = "0",required = false) Integer pageNumber,
+                                                      @RequestParam(value ="pageSize",defaultValue = "5",required = false) Integer pageSize){
+        return new ResponseEntity<>(postService.getPostByUser(userId,pageNumber,pageSize),HttpStatus.OK);
     }
 
     //getPostsByCategory
     @GetMapping("/category/{categoryId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable Integer categoryId){
-        return new ResponseEntity<>(postService.getPostsByCategory(categoryId),HttpStatus.OK);
+    public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable Integer categoryId
+        ,@RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+        @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize
+    ){
+        return new ResponseEntity<>(postService.getPostsByCategory(categoryId,pageNumber,pageSize),HttpStatus.OK);
     }
 
    @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNumber", defaultValue = "0",required = false) Integer pageNumber,
-            @RequestParam(value ="pageSize",defaultValue = "5",required = false) Integer pageSize){
-        return new ResponseEntity<>(postService.getAllPost(pageNumber,pageSize),HttpStatus.OK);
+            @RequestParam(value ="pageSize",defaultValue = "9",required = false) Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue ="id",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir){
+        return new ResponseEntity<>(postService.getAllPost(pageNumber,pageSize,sortBy,sortDir),HttpStatus.OK);
    }
 
    @GetMapping("/posts/{postId}")
