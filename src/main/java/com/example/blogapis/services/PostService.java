@@ -16,7 +16,7 @@ public interface PostService {
     public void deletePost(Integer id);
 
     //getAllPost
-    public List<PostDTO> getAllPost();
+    public List<PostDTO> getAllPost(Integer pageNumber,Integer pageSize);
 
     //getPost
     public PostDTO getPostById(Integer id);

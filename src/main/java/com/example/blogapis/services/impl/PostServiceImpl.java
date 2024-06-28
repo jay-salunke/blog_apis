@@ -14,7 +14,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,8 +83,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost() {
-        return postRepo.findAll().stream().map(x-> modelMapper.map(x,PostDTO.class)).collect(Collectors.toList());
+    public List<PostDTO> getAllPost(Integer pageNumber,Integer pageSize) {
+
+        Pageable page = PageRequest.of(pageNumber,pageSize);
+        Page<Post> pagePost = postRepo.findAll(page);
+        return pagePost.getContent().stream().map(x-> modelMapper.map(x,PostDTO.class)).collect(Collectors.toList());
     }
 
     @Override

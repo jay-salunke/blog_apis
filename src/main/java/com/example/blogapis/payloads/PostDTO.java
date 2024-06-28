@@ -19,7 +19,7 @@ public class PostDTO {
     @NotEmpty
     @Size(min = 10, max = 50)
     private String title;
-    @Size(min = 10,max = 50)
+    @Size(min = 10,max = 1000)
     private String contentDescription;
 
     private Date createdAt;
